@@ -1,0 +1,56 @@
+﻿<Window x:Class="WpfAppLot.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:local="clr-namespace:WpfAppLot"
+        mc:Ignorable="d"
+        Title="MainWindow" HorizontalAlignment="Left" Visibility="Visible" Background="White" WindowStartupLocation="CenterScreen" Loaded="FormLoad" Width="1600" Height="900" SizeToContent="WidthAndHeight">
+    <Grid Width="1600" Height="900">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Menu x:Name="menu" HorizontalAlignment="Center" Height="25" VerticalAlignment="Top" Width="210" Background="{x:Null}" Margin="695,0">
+            <MenuItem Header="_File" />
+            <MenuItem Header="_Edit" >
+                <MenuItem Header="Database Connection" VerticalAlignment="Center" VerticalContentAlignment="Center" Click="Menu_DatabaseConnection_Clicked" />
+                <MenuItem Header="Start Database" VerticalAlignment="Center" VerticalContentAlignment="Center" Click="Edit_StartDB_Click" />
+            </MenuItem>
+            <MenuItem Header="_View" />
+            <MenuItem Header="_Window" />
+            <MenuItem Header="_Help" />
+        </Menu>
+        <WrapPanel HorizontalAlignment="Left" Height="30" Margin="51,51,0,0" VerticalAlignment="Top" Width="900">
+            <TextBox x:Name="Number1" Height="30" Margin="0,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="30" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" GotKeyboardFocus="SelectAllTextBox"/>
+            <TextBox x:Name="Number2" Height="30" Margin="20,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="30" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" GotKeyboardFocus="SelectAllTextBox"/>
+            <TextBox x:Name="Number3" Height="30" Margin="20,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="30" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" GotKeyboardFocus="SelectAllTextBox"/>
+            <TextBox x:Name="Number4" Height="30" Margin="20,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="30" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" GotKeyboardFocus="SelectAllTextBox"/>
+            <TextBox x:Name="Number5" Height="30" Margin="20,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="30" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" GotKeyboardFocus="SelectAllTextBox"/>
+            <TextBox x:Name="Number01" Height="30" Margin="50,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="30" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" GotKeyboardFocus="SelectAllTextBox"/>
+            <TextBox x:Name="Number02" Height="30" Margin="20,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="30" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" GotKeyboardFocus="SelectAllTextBox"/>
+            <Button x:Name="BtnAddNewResult" 
+                    Content="Enter" 
+                    HorizontalAlignment="Left" 
+                    Margin="20,0,0,0" 
+                    VerticalAlignment="Top" 
+                    Width="75" 
+                    Height="30" 
+                    VerticalContentAlignment="Center" 
+                    Click="UpdateNumber"
+                    />
+            <Label x:Name="LblLabel" Content="Day of Draw" Margin="50,0,0,0"/>
+            <ComboBox x:Name="CbBoxDrawDate" 
+                      ItemStringFormat="{}{0:dd/MM/yyyy}" 
+                      Width="200" Margin="20,0,0,0" 
+                      Loaded="CbBoxDrawDate_Loaded"
+                      VerticalContentAlignment="Center" 
+                      SelectionChanged="CbBoxDrawDate_selectChange" 
+                      HorizontalContentAlignment="Center"/>
+            <Button x:Name="BtnReload" Content="Reload" Width="75" Margin="25,0,0,0" Click="BtnReload_Click"/>
+        </WrapPanel>
+        <ComboBox x:Name="StatisComboBox" HorizontalAlignment="Left" Margin="50,100,0,0" VerticalAlignment="Top" Width="200" Height="25" SelectionChanged="StatisCbBoxSelectChange"/>
+        <DataGrid x:Name="MainGrid" HorizontalAlignment="Left" Margin="50,140,0,0" VerticalAlignment="Top" Width="1500" Height="700"/>
+
+    </Grid>
+</Window>
