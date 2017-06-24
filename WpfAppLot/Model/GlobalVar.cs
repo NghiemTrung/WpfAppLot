@@ -13,6 +13,7 @@ namespace WpfAppLot.Model
         public static DB_Service _DataService;
         public static List<DrawNumber> DrawResult = new List<DrawNumber>();
         public static List<NumberDraw> Univers = new List<NumberDraw>();
+        //Please add your connection string to this variable, must be SQLServer connection string
         public static string ConnectionStringSQL = "Data Source=MAYTINH-KE1TVDA;Initial Catalog=LottoDB;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         public static string[] ComboBoxCollection
         {
