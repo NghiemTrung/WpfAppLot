@@ -12,13 +12,13 @@ namespace WpfAppLot.Database
         #region Propertises and get-set
         protected string _ConnectionString;
         protected string _query;
-        protected DataTable _DataTable = new DataTable();
+        protected DataTable _DataTable;
         //get and set value
         public string Query
         {
             set { _query = value; }
         }
-        public string ConnectionString
+        public virtual string ConnectionString
         {
             set { _ConnectionString = value; }
             get { return _ConnectionString; }

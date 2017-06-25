@@ -10,11 +10,12 @@ namespace WpfAppLot.Model
 {
     class GlobalVar
     {
-        public static DB_Service _DataService;
+        public static DB_Service _DataService = new Database.SQLservice("Data Source=MAYTINH-KE1TVDA;Initial Catalog=LottoDB;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         public static List<DrawNumber> DrawResult = new List<DrawNumber>();
-        public static List<NumberDraw> Univers = new List<NumberDraw>();
+        public static List<NumberDraw> Univers;
         //Please add your connection string to this variable, must be SQLServer connection string
-        public static string ConnectionStringSQL = "Data Source=MAYTINH-KE1TVDA;Initial Catalog=LottoDB;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        //public static string ConnectionStringSQL = "Data Source=MAYTINH-KE1TVDA;Initial Catalog=LottoDB;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        public static string ConnectionStringSQL;
         public static string[] ComboBoxCollection
         {
             get
@@ -29,6 +30,7 @@ namespace WpfAppLot.Model
         }
         public static void AddLetter()
         {
+            Univers = new List<NumberDraw>();
             for (int i = 0; i < 50; i++)
             {
                 Univers.Add(new NumberDraw((byte)(i + 1)));

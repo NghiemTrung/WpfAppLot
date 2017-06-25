@@ -31,6 +31,18 @@ namespace WpfAppLot.Database
         {
             set { ConnStrBuilder.Password = value; UpdateConnectionString(); }
         }
+        public override string ConnectionString
+        {
+            get
+            {
+                return _connector.ConnectionString;
+            }
+
+            set
+            {
+                base.ConnectionString = _connector.ConnectionString;
+            }
+        }
         #endregion
         //Constructor
         #region Constructor
@@ -70,10 +82,11 @@ namespace WpfAppLot.Database
         {
             _connector.ConnectionString = ConnStrBuilder.ConnectionString;
         }
-        public override void OpenConnection()   { _connector.Open(); }
+        public override void OpenConnection()   { try { _connector.Open(); } catch (Exception ex) { throw ex; } }
         public override void CloseConnection()  { _connector.Close(); }
         public override DataTable outTable()
         {
+            _DataTable = new DataTable();
             _command.CommandText = _query;
             _DataAdapter.SelectCommand = _command;
             _DataAdapter.Fill(_DataTable);

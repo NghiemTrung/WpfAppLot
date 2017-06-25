@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfAppLot.Database;
+using WpfAppLot.Model;
 
 namespace WpfAppLot.View
 {
@@ -36,11 +37,19 @@ namespace WpfAppLot.View
                 Properties.Settings.Default.DatabaseName = txtBxDatabase.Text;
                 Properties.Settings.Default.Username = txtBxUsername.Text;
                 Properties.Settings.Default.Password = txtBxPassword.Password;
+                GlobalVar._DataService = conn;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            GlobalVar.ConnectionStringSQL = GlobalVar._DataService.ConnectionString;
+            MainWindow Main = new MainWindow();
+            Main.Show();
         }
     }
 }

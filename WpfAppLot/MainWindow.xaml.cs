@@ -32,22 +32,55 @@ namespace WpfAppLot
         public MainWindow()
         {
             InitializeComponent();
-            GlobalVar.AddLetter();
-            GlobalVar._DataService = new Database.SQLservice("Data Source=MAYTINH-KE1TVDA;Initial Catalog=LottoDB;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            GlobalVar._DataService.OpenConnection();
 
             Values1 = new ChartValues<double> { 3, 4, 6, 3, 2, 6 };
             Values2 = new ChartValues<double> { 5, 3, 5, 7, 3, 9 };
             DataContext = this;
         }
+        //execute when loading form
+        private void FormLoad(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //GlobalVar._DataService = new Database.SQLservice("Data Source=MAYTINH-KE1TVDA;Initial Catalog=LottoDB;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                GlobalVar._DataService.OpenConnection();
+                GlobalVar.DrawResult.Clear();
+                foreach (var DrawResult in DrawDateContext.GetALLDrawNumbers(GlobalVar._DataService))
+                {
+                    GlobalVar.DrawResult.Add(DrawResult);
+                }
+                CbBoxDrawDate.ItemsSource = GlobalVar.DrawResult;
+                CbBoxDrawDate.DisplayMemberPath = "DrawDate";
+                CbBoxDrawDate.SelectedValuePath = "ID";
+                CbBoxDrawDate.SelectedIndex = GlobalVar.DrawResult.Count() - 1;
+                UpdateLetters();
+                //DataGridSkipped();
+                StatisComboBox.ItemsSource = GlobalVar.ComboBoxCollection;
+                StatisComboBox.SelectedIndex = 0;
+                //DataGridSkipped();
+                #region init DB
+                //CreateDatabase.InitDatabase();
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                Menu_DatabaseConnection_Clicked(new object(), new RoutedEventArgs());
+            }
+            finally
+            {
+            }
+        }
         public ChartValues<double> Values1 { get; set; }
         public ChartValues<double> Values2 { get; set; }
         private void Menu_DatabaseConnection_Clicked(object sender, RoutedEventArgs e)
         {
+            GlobalVar._DataService.CloseConnection();
             DBlogin DatabaseLogin = new DBlogin();
             DatabaseLogin.Show();
+            this.Close();
         }
-
+        
         private void CbBoxDrawDate_Loaded(object sender, RoutedEventArgs e)
         {
             
@@ -75,28 +108,7 @@ namespace WpfAppLot
             Number01.Text = GlobalVar.DrawResult[CbBoxDrawDate.SelectedIndex].EUNum1.ToString();
             Number02.Text = GlobalVar.DrawResult[CbBoxDrawDate.SelectedIndex].EUNum2.ToString();
         }
-
-        private void FormLoad(object sender, RoutedEventArgs e)
-        {
-            GlobalVar.DrawResult.Clear();
-            foreach (var DrawResult in DrawDateContext.GetALLDrawNumbers(GlobalVar._DataService))
-            {
-                GlobalVar.DrawResult.Add(DrawResult);
-            }
-            CbBoxDrawDate.ItemsSource = GlobalVar.DrawResult;
-            CbBoxDrawDate.DisplayMemberPath = "DrawDate";
-            CbBoxDrawDate.SelectedValuePath = "ID";
-            CbBoxDrawDate.SelectedIndex = GlobalVar.DrawResult.Count() - 1;
-            UpdateLetters();
-            //DataGridSkipped();
-            StatisComboBox.ItemsSource = GlobalVar.ComboBoxCollection;
-            StatisComboBox.SelectedIndex = 0;
-            DataGridSkipped();
-            #region init DB
-            //CreateDatabase.InitDatabase();
-            
-            #endregion
-        }
+        
         private void DataGridSkipped()
         {
             DataTable insert2grid = new DataTable();
@@ -139,6 +151,7 @@ namespace WpfAppLot
 
         private void UpdateLetters()
         {
+            GlobalVar.AddLetter();
             foreach(DrawNumber RS in GlobalVar.DrawResult)
             {
                 if (RS.ID != 1) {
