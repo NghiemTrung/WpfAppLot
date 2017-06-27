@@ -12,9 +12,15 @@ namespace WpfAppLot.Model
 {
     class GlobalVar
     {
+        #region global variable
         public static DB_Service _DataService = new Database.SQLservice("Data Source=MAYTINH-KE1TVDA;Initial Catalog=LottoDB;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         public static List<DrawNumber> DrawResult = new List<DrawNumber>();
         public static List<NumberDraw> Univers;
+        public static int NumberOfMain = 5;
+        public static int NumberOfSide = 2;
+        public static int UniverOfMain = 50;
+        public static int UniverOfSide = 10;
+
         /*Please add your connection string to this variable, must be SQLServer connection string
         public static string ConnectionStringSQL = "Data Source=MAYTINH-KE1TVDA;Initial Catalog=LottoDB;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";*/
         public static string ConnectionStringSQL;
@@ -30,10 +36,13 @@ namespace WpfAppLot.Model
                 };
             }
         }
+        #endregion
+
+        #region global method
         public static void AddLetter()
         {
             Univers = new List<NumberDraw>();
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < UniverOfMain; i++)
             {
                 Univers.Add(new NumberDraw((byte)(i + 1)));
             }
@@ -132,8 +141,8 @@ namespace WpfAppLot.Model
             DrawNumber _output;
             int[] _MainRandom;
             int[] _SideRandom;
-            _MainRandom = RandomNums(_Mainnumbers, 5);
-            _SideRandom = RandomNums(_Sidenumbers, 2);
+            _MainRandom = RandomNums(_Mainnumbers, NumberOfMain);
+            _SideRandom = RandomNums(_Sidenumbers, NumberOfSide);
             _output = new DrawNumber(_DrawDate,
                 (byte)_MainRandom[0],
                 (byte)_MainRandom[1],
@@ -150,10 +159,10 @@ namespace WpfAppLot.Model
         //randomly pick 10 with number of picks in range
         private static List<WpfAppLot.Model.DrawNumber> TenPicks(DateTime _DrawDate, int _InRange)
         {
-            int[] Main = new int[50];
-            int[] Side = new int[10];
-            for (int i = 0; i < 50; i++) Main[i] = i + 1;
-            for (int i = 0; i < 10; i++) Side[i] = i + 1;
+            int[] Main = new int[UniverOfMain];
+            int[] Side = new int[UniverOfSide];
+            for (int i = 0; i < UniverOfMain; i++) Main[i] = i + 1;
+            for (int i = 0; i < UniverOfSide; i++) Side[i] = i + 1;
             return PickNumBaseOnSamples(Main, Side, 20, _InRange, _DrawDate);
         }
 
@@ -173,8 +182,8 @@ namespace WpfAppLot.Model
                 count_Inrange = 0;
                 do
                 {
-                    if (_side.Count < 2) { _side = new List<int>(_SampleSide); }
-                    if (_numbers.Count < 5) { _numbers = _SampleMain.ToList(); }
+                    if (_side.Count < NumberOfSide) { _side = new List<int>(_SampleSide); }
+                    if (_numbers.Count < NumberOfMain) { _numbers = _SampleMain.ToList(); }
                     Pick = PickaSet(_numbers, _side, _DrawDate);
                     count_Inrange = (CheckRange(Pick)) ? count_Inrange + 1 : count_Inrange;
                     _output.Add(Pick);
@@ -215,7 +224,7 @@ namespace WpfAppLot.Model
 
             return Insert2grid;
         }
-
+        #endregion
     }
 }
 
