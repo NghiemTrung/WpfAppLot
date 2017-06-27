@@ -38,6 +38,7 @@ namespace WpfAppLot.View
                 Properties.Settings.Default.Username = txtBxUsername.Text;
                 Properties.Settings.Default.Password = txtBxPassword.Password;
                 GlobalVar._DataService = conn;
+                GlobalVar.ConnectionStringSQL = GlobalVar._DataService.ConnectionString;
             }
             catch (Exception ex)
             {
@@ -47,7 +48,6 @@ namespace WpfAppLot.View
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            GlobalVar.ConnectionStringSQL = GlobalVar._DataService.ConnectionString;
             MainWindow Main = new MainWindow();
             Main.Show();
         }
