@@ -32,6 +32,7 @@ namespace WpfAppLot
         public MainWindow()
         {
             InitializeComponent();
+            GlobalVar.ConnectionStringSQL = GlobalVar._DataService.ConnectionString;
 
             Values1 = new ChartValues<double> { 3, 4, 6, 3, 2, 6 };
             Values2 = new ChartValues<double> { 5, 3, 5, 7, 3, 9 };
@@ -151,7 +152,7 @@ namespace WpfAppLot
 
         private void UpdateLetters()
         {
-            GlobalVar.AddLetter();
+            GlobalMethod.AddLetter();
             foreach(DrawNumber RS in GlobalVar.DrawResult)
             {
                 if (RS.ID != 1) {
@@ -183,8 +184,8 @@ namespace WpfAppLot
             switch (StatisComboBox.SelectedIndex)
             {
                 case 0: DataGridSkipped(); break;
-                case 1: MainGrid.ItemsSource = GlobalVar.LastXgame(10,GlobalVar.DrawResult).DefaultView; break;
-                case 2: MainGrid.ItemsSource = GlobalVar.RandomPick(GlobalVar.DrawResult).DefaultView;break;
+                case 1: MainGrid.ItemsSource = GlobalMethod.LastXgame(10,GlobalVar.DrawResult).DefaultView; break;
+                case 2: MainGrid.ItemsSource = GlobalMethod.RandomPick(GlobalVar.DrawResult).DefaultView;break;
             }
         }
     }

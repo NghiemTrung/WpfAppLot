@@ -48,6 +48,7 @@ namespace WpfAppLot.View
 
         private void Window_Closed(object sender, EventArgs e)
         {
+            GlobalVar.ConnectionStringSQL = GlobalVar._DataService.ConnectionString;
             MainWindow Main = new MainWindow();
             Main.Show();
         }

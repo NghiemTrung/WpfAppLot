@@ -206,23 +206,8 @@ namespace WpfAppLot.Model
         }
         #endregion
     }
-    class DrawDateContext
+    static class DrawDateContext
     {
-        #region Prop
-        private List<DrawNumber> _DrawNumberS;
-        private DB_Service _DBconnect;
-        #endregion
-        #region get set
-        public List<DrawNumber> DrawNumberS { get { return _DrawNumberS; } }
-        public DB_Service DbConnection { set { _DBconnect = value; } }
-        #endregion
-        #region Construction
-        //public DrawDateContext() { _DrawNumberS = new List<DrawNumber>(); }
-        //public DrawDateContext(DB_Service DatabaseContext):this()
-        //{
-        //    _DBconnect = DatabaseContext;
-        //}
-        #endregion
         #region General Methods
         public static IEnumerable<DrawNumber> GetALLDrawNumbers(DB_Service DBconnect)
         {
@@ -272,6 +257,81 @@ namespace WpfAppLot.Model
         public static bool compareDraw(DrawNumber _First, DrawNumber _Second)
         {
             return _First.ListMainNum.Equals(_Second.ListMainNum);
+        }
+
+        //check if the draw number is in the high range or not
+        private static bool CheckRange(DrawNumber _NeedCheck)
+        {
+            return ((_NeedCheck.MainSum >= 96 && _NeedCheck.MainSum <= 159) && (_NeedCheck.SideSum >= 5 && _NeedCheck.SideSum <= 15));
+        }
+
+        private static bool CheckRange(int[] _Main, int[] _Side)
+        {
+            return ((_Main.Sum() >= 96 && _Main.Sum() <= 159) && (_Side.Sum() >= 5 && _Side.Sum() <= 15));
+        }
+        
+        // Ramdon numbet base on sample and quantity
+        private static int[] RandomNums(List<int> _numbers, int _NumberOfPick)
+        {
+            int[] PickedNums = new int[_NumberOfPick];
+            int _index;
+            for (int i = 0; i < PickedNums.Length; i++)
+            {
+                _index = GlobalMethod.NextInt(0, _numbers.Count);
+                PickedNums[i] = _numbers[_index];
+                _numbers.RemoveAt(_index);
+            }
+
+            return PickedNums;
+        }
+
+        // Pick a Set and return a Pick
+        private static DrawNumber PickaSet(List<int> _Mainnumbers, List<int> _Sidenumbers, DateTime _DrawDate)
+        {
+            DrawNumber _output;
+            int[] _MainRandom;
+            int[] _SideRandom;
+            _MainRandom = RandomNums(_Mainnumbers, GlobalVar.NumberOfMain);
+            _SideRandom = RandomNums(_Sidenumbers, GlobalVar.NumberOfSide);
+            _output = new DrawNumber(_DrawDate,
+                (byte)_MainRandom[0],
+                (byte)_MainRandom[1],
+                (byte)_MainRandom[2],
+                (byte)_MainRandom[3],
+                (byte)_MainRandom[4],
+                (byte)_SideRandom[0],
+                (byte)_SideRandom[1]
+                );
+            _output.SortNum();
+            return _output;
+        }
+        
+        //Random pick Numbers base on input sample and range criteria
+        public static List<WpfAppLot.Model.DrawNumber> PickNumBaseOnSamples(int[] _SampleMain, int[] _SampleSide, int _NumberOfPicks, int _Inrange, DateTime _DrawDate)
+        {
+            List<DrawNumber> _output = new List<DrawNumber>();
+            DrawNumber Pick;
+            int count_Inrange = 0;
+            List<int> _numbers;
+            List<int> _side;
+            do
+            {
+                _output.Clear();
+                _numbers = _SampleMain.ToList();
+                _side = new List<int>(_SampleSide);
+                count_Inrange = 0;
+                do
+                {
+                    if (_side.Count < GlobalVar.NumberOfSide) { _side = new List<int>(_SampleSide); }
+                    if (_numbers.Count < GlobalVar.NumberOfMain) { _numbers = _SampleMain.ToList(); }
+                    Pick = PickaSet(_numbers, _side, _DrawDate);
+                    count_Inrange = (CheckRange(Pick)) ? count_Inrange + 1 : count_Inrange;
+                    _output.Add(Pick);
+                } while (_output.Count < _NumberOfPicks);
+
+            } while (count_Inrange < _Inrange);
+
+            return _output;
         }
         #endregion
     }

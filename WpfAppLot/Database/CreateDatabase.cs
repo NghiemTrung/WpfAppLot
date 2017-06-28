@@ -8,14 +8,18 @@ using System.Linq;
 
 namespace WpfAppLot.Database
 {
-    class CreateDatabase
+    static class CreateDatabase
     {
         public static void InitDatabase()
         {
+            #region initial excel connection
             string FilePath = "../../Database/lotto.xlsx";
             string connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + FilePath + ";Extended Properties=Excel 12.0";
             OleDbConnection ExcelConn = new OleDbConnection(connString);
             DataSet Dset = new DataSet();
+            #endregion
+
+            #region get data from excel file
             try
             {
                 ExcelConn.Open();
@@ -43,7 +47,9 @@ namespace WpfAppLot.Database
                     );
                 GlobalVar.DrawResult.Add(addNumber);
             }
-            
+            #endregion
+
+            #region Create and add result data to SQL server
             List<DateTime> DrawDate = new List<DateTime>();
             DateTime StarDate = new DateTime(2012, 03, 23);
             while (DateTime.Compare(StarDate, DateTime.Now) <= 0)
@@ -66,7 +72,9 @@ namespace WpfAppLot.Database
                 MyCommand.Parameters[0].Value = DrDate;
                 MyCommand.ExecuteNonQuery();
             }
+            #endregion
 
+            #region Create and add statistic to SQL server
             foreach (DrawNumber Result in GlobalVar.DrawResult)
             {
                 DrawDateContext.UpdateDrawNumber(Result, GlobalVar._DataService);
@@ -94,6 +102,7 @@ namespace WpfAppLot.Database
                     MyCommand.ExecuteNonQuery();
                 }
             }
+            #endregion
         }
 
         public static List<int[,]> CalculateSum(List<DrawNumber> ListOfResult)
