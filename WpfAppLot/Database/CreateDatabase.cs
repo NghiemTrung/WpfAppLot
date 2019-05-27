@@ -107,13 +107,14 @@ namespace WpfAppLot.Database
 
         public static List<int[,]> CalculateSum(List<DrawNumber> ListOfResult)
         {
-            int[,] MainSum = new int[226,2];
-            int[,] SideSum = new int[17, 2];
-            for (int i = 0; i < 226; i++) {
+
+            int[,] MainSum = new int[GlobalVar.NumberOfMain * 5 - 15, 2];
+            int[,] SideSum = new int[GlobalVar.NumberOfSide * 2 - 3, 2];
+            for (int i = 0; i < MainSum.Length; i++) {
                 MainSum[i, 0] = i + 15;
                 MainSum[i, 1] = 0;
             }
-            for (int i = 0; i < 17; i++)
+            for (int i = 0; i < SideSum.Length; i++)
             {
                 SideSum[i, 0] = i + 3;
                 SideSum[i, 1] = 1;

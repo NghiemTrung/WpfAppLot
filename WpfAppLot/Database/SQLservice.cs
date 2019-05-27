@@ -109,7 +109,7 @@ namespace WpfAppLot.Database
             _command.ExecuteNonQuery();
             _command.Parameters.Clear();
         }
-        #region Command Construction
+            #region Command Construction
         private void AddParameter (string[] ParaName,string[] ParaValue)
         {
             for (int i = 0; i < ParaName.Length; i++)
@@ -142,7 +142,7 @@ namespace WpfAppLot.Database
             AddParameter(ValueParaName, ValueParaValue);
             AddParameter(WhereParaName, WhereParaValue);
         }
-        #endregion
+            #endregion
         #endregion
     }
 }

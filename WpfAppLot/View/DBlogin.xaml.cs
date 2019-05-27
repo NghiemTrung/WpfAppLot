@@ -52,5 +52,10 @@ namespace WpfAppLot.View
             MainWindow Main = new MainWindow();
             Main.Show();
         }
+
+        private void comboBoxTypeOfDB_SelectChange(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

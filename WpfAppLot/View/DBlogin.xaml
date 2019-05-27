@@ -16,7 +16,11 @@
         <PasswordBox x:Name="txtBxPassword" HorizontalAlignment="Left" Height="25" Margin="170,185,0,0" VerticalAlignment="Top" Width="240" VerticalContentAlignment="Center"/>
         <Label x:Name="label4" Content="Password" HorizontalAlignment="Left" Height="25" Margin="84,185,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
         <Button x:Name="BtnConnect" Content="Connect" HorizontalAlignment="Left" Margin="335,230,0,0" VerticalAlignment="Top" Width="75" Click="connectBTNclicked"/>
-        <ComboBox x:Name="comboBoxTypeOfDB" HorizontalAlignment="Left" Margin="170,25,0,0" VerticalAlignment="Top" Width="240"/>
+        <ComboBox x:Name="comboBoxTypeOfDB" HorizontalAlignment="Left" Margin="170,25,0,0" VerticalAlignment="Top" Width="240" SelectionChanged="comboBoxTypeOfDB_SelectChange">
+            <ComboBoxItem>Excels</ComboBoxItem>
+            <ComboBoxItem>SQL</ComboBoxItem>
+            <ComboBoxItem>mySQL</ComboBoxItem>
+        </ComboBox>
         <Label x:Name="label" Content="Type of DB" HorizontalAlignment="Left" Margin="84,25,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
